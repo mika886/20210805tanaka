@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>todo component</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <h1>TODOアプリ</h1>
+    <form v-on:submit.prevent>
+      タスク名：<input type="text" v-model="newTask">
+      推定時間（分）：<input type="text" v-model="newTime"><br>
+      <button v-on:click="addTodo">追加</button>
+    </form>
+
+  <table width="400">
+		<tr>
+			<th align="left">タスク名</th>
+			<th align="left">推定時間（分）</th>
+		</tr>
+		<tr v-for="todo in todos">
+      <todo-component></todo-component>
+		</tr>
+  </table>
+  </div>
+  <script>
+    Vue.component('todo-component', {
+      template:`<div>
+        <td>{{todo.task}}</td>
+        <td>{{todo.time}}分</td>
+      </div>`
+    })
+    const vm = new Vue({
+      el:'#app',
+      data: {
+        newTask:'',
+        newTime:'',
+        todos:[
+          {task:'勉強する',time:60},
+          {task:'料理する',time:60},
+          {task:'寝る',time:30},
+        ]
+      },
+      methods: {
+        addTodo:function(){
+          if(this.newTask,this.newTime === '')return;
+            this.todos.push(
+              {task:this.newTask,time:this.newTime}
+            );
+            this.newTask='';
+            this.newTime='';
+          }
+        }
+    });
+
+  </script>
+</body>
+
+</html>
